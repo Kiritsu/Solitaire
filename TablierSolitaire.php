@@ -216,8 +216,8 @@ class TablierSolitaire
             return;
         }
 
-        $this->getCase($ligneDepart, $colonneDepart)->setValeur(CaseSolitaire::VIDE);
-        $this->getCase($ligneArrivee, $colonneArrivee)->setValeur(CaseSolitaire::BILLE);
+        $this->videCase($ligneDepart, $colonneDepart);
+        $this->remplieCase($ligneArrivee, $colonneArrivee);
 
         $caseMilieu = null;
         if ($ligneDepart - $ligneArrivee == 0
@@ -341,23 +341,23 @@ class TablierSolitaire
     {
         $tab = new self(7, 7);
 
-        $tab->getCase(0, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(0, 1)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(0, 0);
+        $tab->neutraliseCase(1, 0);
+        $tab->neutraliseCase(0, 1);
 
-        $tab->getCase(0, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(0, 5)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(0, 6);
+        $tab->neutraliseCase(1, 6);
+        $tab->neutraliseCase(0, 5);
 
-        $tab->getCase(6, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(6, 1)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 0)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(6, 0);
+        $tab->neutraliseCase(6, 1);
+        $tab->neutraliseCase(5, 0);
 
-        $tab->getCase(6, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(6, 5)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 6)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(6, 6);
+        $tab->neutraliseCase(6, 5);
+        $tab->neutraliseCase(5, 6);
 
-        $tab->getCase(2, 3)->setValeur(CaseSolitaire::VIDE);
+        $tab->videCase(2, 3);
 
         return $tab;
     }
@@ -370,27 +370,27 @@ class TablierSolitaire
     {
         $tab = new self(7, 7);
 
-        $tab->getCase(0, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(0, 1)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 1)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(0, 0);
+        $tab->neutraliseCase(1, 0);
+        $tab->neutraliseCase(0, 1);
+        $tab->neutraliseCase(1, 1);
 
-        $tab->getCase(0, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(0, 5)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(1, 5)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(0, 6);
+        $tab->neutraliseCase(1, 6);
+        $tab->neutraliseCase(0, 5);
+        $tab->neutraliseCase(1, 5);
 
-        $tab->getCase(6, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(6, 1)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 0)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 1)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(6, 0);
+        $tab->neutraliseCase(6, 1);
+        $tab->neutraliseCase(5, 0);
+        $tab->neutraliseCase(5, 1);
 
-        $tab->getCase(6, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(6, 5)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 6)->setValeur(CaseSolitaire::NEUTRALISE);
-        $tab->getCase(5, 5)->setValeur(CaseSolitaire::NEUTRALISE);
+        $tab->neutraliseCase(6, 6);
+        $tab->neutraliseCase(6, 5);
+        $tab->neutraliseCase(5, 6);
+        $tab->neutraliseCase(5, 5);
 
-        $tab->getCase(3, 3)->setValeur(CaseSolitaire::VIDE);
+        $tab->videCase(3, 3);
 
         return $tab;
     }
@@ -401,7 +401,21 @@ class TablierSolitaire
      */
     public static function initTablierGagnant()
     {
-        return new self();
+        $tab = new self(7, 7);
+        
+        for ($l = 0; $l < $tab->getNbLignes(); $l++) {
+            for ($c = 0; $c < $tab->getNbColonnes(); $c++) {
+                $case = $tab->getCase($l, $c);
+                if (!$case->isCaseNeutralise()) {
+                    $case->setValeur(CaseSolitaire::VIDE);
+                }
+            }
+        }
+        
+        $tab->remplieCase(2, 2);
+        $tab->remplieCase(2, 3);
+        
+        return $tab;
     }
 
     /**
@@ -410,6 +424,20 @@ class TablierSolitaire
      */
     public static function initTablierPerdant()
     {
-        return new self();
+        $tab = new self(7, 7);
+        
+        for ($l = 0; $l < $tab->getNbLignes(); $l++) {
+            for ($c = 0; $c < $tab->getNbColonnes(); $c++) {
+                $case = $tab->getCase($l, $c);
+                if (!$case->isCaseNeutralise()) {
+                    $case->setValeur(CaseSolitaire::VIDE);
+                }
+            }
+        }
+        
+        $tab->remplieCase(2, 2);
+        $tab->remplieCase(4, 4);
+        
+        return $tab;
     }
 }
