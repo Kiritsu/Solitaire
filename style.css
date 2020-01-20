@@ -1,0 +1,26 @@
+body {
+    background-color: bisque;
+    text-align: center;
+}
+
+td {
+    font-size: 24pt;
+}
+
+.bille {
+    background-color: black;
+}
+
+.billeJouable {
+    background-color: brown;
+}
+
+.vide {
+    background-color: aliceblue;
+}
+
+.neutralise {
+    background-color: darkgrey;
+}
+
+

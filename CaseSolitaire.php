@@ -33,6 +33,8 @@ class CaseSolitaire
 
         if ($this->isCaseNeutralise())
             return ' ';
+
+        return ' ';
     }
 
     /**

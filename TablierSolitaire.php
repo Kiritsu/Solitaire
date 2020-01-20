@@ -73,6 +73,11 @@ class TablierSolitaire
      */
     public function getCase($ligne, $colonne)
     {
+        if ($ligne >= $this->getNbLignes()
+            || $colonne >= $this->getNbColonnes()
+            || $ligne < 0 || $colonne < 0) {
+            return null;
+        }
         return $this->tablier[$ligne][$colonne];
     }
 
@@ -293,7 +298,7 @@ class TablierSolitaire
             }
         }
 
-        return $nbJouables > 0;
+        return $nbJouables <= 0;
     }
 
     /**
